@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog"))
   .filter((post) => post.id.startsWith("sql/"))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  .sort((a, b) => a.id.localeCompare(b.id));
 ---
 
 <html lang="en">
