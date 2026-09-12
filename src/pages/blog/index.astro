@@ -1,0 +1,143 @@
+---
+const categories = [
+  {
+    name: "SQL",
+    description: "SQL fundamentals, practice problems, and database concepts.",
+    href: "/blog/sql/",
+  },
+  {
+    name: "Python",
+    description: "Python programming, problem solving, and practical development.",
+    href: "/blog/python/",
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Learning | Nithish</title>
+    <meta
+      name="description"
+      content="Nithish's learning journey in AI Engineering."
+    />
+  </head>
+
+  <body>
+    <main>
+      <a href="/">&larr; Home</a>
+
+      <header>
+        <p>KNOWLEDGE BASE</p>
+        <h1>My Learning Journey</h1>
+        <p>
+          Documenting my journey from Python and SQL to Machine Learning,
+          Deep Learning, GenAI, and Agentic AI.
+        </p>
+      </header>
+
+      <section>
+        {
+          categories.map((category) => (
+            <a class="card" href={category.href}>
+              <div>
+                <h2>{category.name}</h2>
+                <p>{category.description}</p>
+              </div>
+
+              <strong>Explore &rarr;</strong>
+            </a>
+          ))
+        }
+      </section>
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    font-family: system-ui, sans-serif;
+  }
+
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  a {
+    color: #aaa;
+    text-decoration: none;
+  }
+
+  header {
+    margin: 70px 0 50px;
+  }
+
+  header p:first-child {
+    color: #888;
+    letter-spacing: 3px;
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: 56px;
+    margin: 10px 0;
+  }
+
+  header p:last-child {
+    color: #999;
+    max-width: 700px;
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .card {
+    padding: 30px;
+    border: 1px solid #252525;
+    border-radius: 16px;
+    background: #111;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: #555;
+  }
+
+  h2 {
+    color: white;
+    margin-top: 0;
+  }
+
+  .card p {
+    color: #999;
+    line-height: 1.6;
+  }
+
+  strong {
+    display: inline-block;
+    margin-top: 15px;
+    color: white;
+  }
+
+  @media (max-width: 700px) {
+    section {
+      grid-template-columns: 1fr;
+    }
+
+    h1 {
+      font-size: 40px;
+    }
+  }
+</style>

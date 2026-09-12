@@ -1,0 +1,128 @@
+---
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog"))
+  .filter((post) => post.id.startsWith("python/"))
+  .sort((a, b) => a.id.localeCompare(b.id));
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Python | Nithish</title>
+    <meta
+      name="description"
+      content="Nithish's Python learning journey."
+    />
+  </head>
+
+  <body>
+    <main>
+      <a href="/blog/">&larr; All Learning</a>
+
+      <header>
+        <p>LEARNING JOURNEY</p>
+        <h1>Python</h1>
+        <p>
+          My journey learning Python through practice, concepts, and projects.
+        </p>
+      </header>
+
+      <section>
+        {
+          posts.map((post) => (
+            <a class="card" href={`/blog/${post.id}/`}>
+              <div>
+                <span>{post.data.category}</span>
+                <h2>{post.data.title}</h2>
+                <p>{post.data.description}</p>
+              </div>
+
+              <strong>Read &rarr;</strong>
+            </a>
+          ))
+        }
+      </section>
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    font-family: system-ui, sans-serif;
+  }
+
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  a {
+    color: #aaa;
+    text-decoration: none;
+  }
+
+  header {
+    margin: 70px 0 40px;
+  }
+
+  header p:first-child {
+    color: #888;
+    letter-spacing: 3px;
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: 64px;
+    margin: 10px 0;
+  }
+
+  header p:last-child {
+    color: #999;
+    font-size: 18px;
+  }
+
+  section {
+    display: grid;
+    gap: 20px;
+  }
+
+  .card {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 28px;
+    border: 1px solid #252525;
+    border-radius: 16px;
+    background: #111;
+  }
+
+  .card:hover {
+    border-color: #555;
+  }
+
+  .card span {
+    color: #888;
+    font-size: 13px;
+  }
+
+  h2 {
+    color: white;
+    margin: 10px 0;
+  }
+
+  .card p {
+    color: #999;
+    line-height: 1.6;
+  }
+
+  strong {
+    color: white;
+    white-space: nowrap;
+  }
+</style>
