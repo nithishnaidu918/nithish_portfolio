@@ -25,7 +25,14 @@ Query all columns for every row in the `CITY` table.
 SELECT *
 
 FROM CITY;
-2. Find a City by ID
+
+
+
+
+
+
+
+##2. Find a City by ID
 
 Question:
 
@@ -36,7 +43,14 @@ SELECT *
 FROM CITY
 
 WHERE ID = 1661;
-3. Find Japanese Cities
+
+
+
+
+
+
+
+##3. Find Japanese Cities
 
 Question:
 
@@ -47,7 +61,14 @@ SELECT *
 FROM CITY
 
 WHERE COUNTRYCODE = 'JPN';
-4. Select Only City Names
+
+
+
+
+
+
+
+##4. Select Only City Names
 
 Question:
 
@@ -58,7 +79,16 @@ SELECT NAME
 FROM CITY
 
 WHERE COUNTRYCODE = 'JPN';
-5. Select Multiple Columns
+
+
+
+
+
+
+
+
+
+##5. Select Multiple Columns
 
 Question:
 
@@ -67,7 +97,14 @@ Query the CITY and STATE columns from the STATION table.
 SELECT CITY, STATE
 
 FROM STATION;
-6. Find Cities With Even IDs
+
+
+
+
+
+
+
+##6. Find Cities With Even IDs
 
 Question:
 
