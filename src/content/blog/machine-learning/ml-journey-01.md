@@ -1,4 +1,19 @@
-Machine Learning — Journey #1
+---
+title: "Machine Learning Learning Journey #1 - Foundations"
+
+description: "Understanding the fundamentals of Machine Learning, AI vs ML vs Deep Learning, supervised learning, unsupervised learning, training, inference, and generalization."
+
+date: "2026-09-14"
+
+category: "Machine Learning"
+
+tags: ["Machine Learning", "ML", "AI", "Fundamentals"]
+---
+
+
+
+
+#Machine Learning — Journey #1
 ## What is Machine Learning?
 
 We're officially starting your Machine Learning Zero → Hero journey.
