@@ -1,5 +1,5 @@
 ---
-title: "Python Journey #1 - Python Basics"
+title: "Python Journey #1 "
 description: "Learning Python fundamentals including comments, variables, strings, numbers, arithmetic, constants, and the Zen of Python."
 date: "2026-09-11"
 category: "Python"

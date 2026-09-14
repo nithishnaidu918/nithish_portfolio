@@ -1,5 +1,5 @@
 ---
-title: "Python Journey #8 - Classes"
+title: "Python Journey #3"
 description: "Learning Python classes, objects, attributes, methods, inheritance, modules, and the standard library."
 date: "2026-09-12"
 category: "Python"

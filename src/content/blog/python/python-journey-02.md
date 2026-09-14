@@ -1,5 +1,5 @@
 ---
-title: "Python Journey #5 - Dictionaries"
+title: "Python Journey #2"
 description: "Learning Python dictionaries, key-value pairs, modifying data, looping, membership checks, and nested data structures."
 date: "2026-09-12"
 category: "Python"
