@@ -1,5 +1,5 @@
 ---
-title: "SQL Learning Journey #1 - SELECT and Filtering Basics"
+title: "SQL Learning Journey #1 "
 
 description: "Practicing SELECT, WHERE, DISTINCT, string filtering, and MOD() through SQL problems."
 
