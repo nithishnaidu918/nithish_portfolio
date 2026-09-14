@@ -1,7 +1,7 @@
 ---
-title: "Machine Learning Learning Journey #1 - Foundations"
+title: "Machine Learning Journey #1 - Understanding the Foundations"
 
-description: "Understanding the fundamentals of Machine Learning, AI vs ML vs Deep Learning, supervised learning, unsupervised learning, training, inference, and generalization."
+description: "Learning the core ideas behind Machine Learning, including models, features, targets, training, inference, supervised learning, and generalization."
 
 date: "2026-09-14"
 
@@ -10,124 +10,40 @@ category: "Machine Learning"
 tags: ["Machine Learning", "ML", "AI", "Fundamentals"]
 ---
 
+# Machine Learning Journey #1
 
+Machine Learning is the foundation of modern AI.
 
+In this journey, I focused on understanding **what Machine Learning actually is, how models learn from data, and how ML problems are classified.**
 
-#Machine Learning — Journey #1
-## What is Machine Learning?
-
-We're officially starting your Machine Learning Zero → Hero journey.
-
-I'll use the material you provided as our foundation, but I'll teach it in a way that makes you actually understand ML, not just memorize definitions.
-
-
-
-
+---
 
 ## 1. What is Machine Learning?
 
-The simplest useful definition is:
+Machine Learning allows computers to learn patterns from data and use those patterns to make predictions or decisions.
 
-Machine Learning is a field where computers learn patterns from data and use those patterns to make predictions or decisions without being explicitly programmed with every rule.
-
-But let's understand what that actually means.
-
-Example: House Price Prediction
-
-Suppose we have:
-
-Area	Bedrooms	Location	Price
-1000	2	City A	₹40L
-1500	3	City A	₹65L
-2000	3	City B	₹90L
-2500	4	City B	₹120L
-
-We want:
-
-Area + Bedrooms + Location
-            ↓
-      ????
-            ↓
-        Price
-
-In traditional programming, we might try to manually create rules:
-
-if area > 2000:
-    price = 10000000
-
-But real-world prices depend on many things:
-
-area
-bedrooms
-location
-age
-floor
-parking
-distance from city
-schools nearby
-crime rate
-...
-
-Writing rules for everything becomes extremely difficult.
-
-Instead:
-
-Historical Data
-      +
-Known Prices
-      ↓
-ML Algorithm
-      ↓
-   Model
-      ↓
-New House
-      ↓
-Predicted Price
-
-The algorithm learns relationships from the historical examples.
+Instead of writing every rule manually, we provide examples and allow an algorithm to learn from them.
 
 
 
 
 
+## 2. AI vs Machine Learning vs Deep Learning
 
-
-
-
-
-
-## 2. AI vs ML vs Deep Learning
-
-This is one of the most important interview concepts.
-
-Think:
+These three concepts are related but not the same.
 
 Artificial Intelligence
-│
-├── Machine Learning
-│   │
-│   ├── Classical ML
-│   │   ├── Linear Regression
-│   │   ├── Decision Trees
-│   │   ├── Random Forest
-│   │   └── XGBoost
-│   │
-│   └── Deep Learning
-│       ├── CNN
-│       ├── RNN
-│       └── Transformers
-│
-└── Other AI approaches
+        ↓
+Machine Learning
+        ↓
+Deep Learning
 
-Your notes describe the same hierarchy.
 
-AI
 
-The largest field.
 
-Goal:
+Artificial Intelligence
 
-Make machines perform tasks that appear intelligent.
+AI is the broad field of building systems that perform tasks that appear intelligent.
 
 Examples:
 
@@ -136,29 +52,26 @@ Planning
 Perception
 Language understanding
 Decision making
-ML
 
-A subset of AI.
 
-Instead of manually writing every rule:
 
-Data → Learning → Model
+
+Machine Learning
+
+ML is a subset of AI where systems learn patterns from data.
+
+
+
+
 Deep Learning
 
-A subset of ML that primarily uses multi-layer neural networks.
+Deep Learning is a subset of ML that primarily uses multi-layer neural networks.
 
 Examples:
-
-Computer vision
-Speech recognition
-LLMs
+Computer Vision
+Speech Recognition
+Large Language Models
 Generative AI
-
-So your interview answer should be:
-
-AI is the broad field of creating intelligent systems. ML is a subset of AI where systems learn patterns from data. Deep Learning is a subset of ML that primarily uses multi-layer neural networks to learn representations from data.
-
-
 
 
 
@@ -168,57 +81,33 @@ AI is the broad field of creating intelligent systems. ML is a subset of AI wher
 
 
 ## 3. Traditional Programming vs Machine Learning
-
-This is fundamental.
-
 Traditional Programming
-
-You give:
-
 Rules + Data
      ↓
   Program
      ↓
   Output
 
+The programmer explicitly defines the rules.
+
 Example:
 
 if temperature > 30:
     print("Hot")
 else:
-    print("Not hot")
+    print("Not Hot")
 
-The programmer explicitly wrote the rule.
 
 Machine Learning
-
-Instead:
-
-Data + Expected Outputs
+Data + Expected Output
           ↓
       ML Algorithm
           ↓
          Model
 
-Then:
+The algorithm learns patterns from examples.
 
-New Data
-   ↓
- Model
-   ↓
-Prediction
-
-For spam detection:
-
-Email	Label
-"Win $100000!"	Spam
-"Meeting at 3 PM"	Not Spam
-"Free iPhone!"	Spam
-"Project report"	Not Spam
-
-The algorithm learns patterns associated with spam.
-
-
+This difference is one of the most important foundations of ML.
 
 
 
@@ -230,17 +119,9 @@ The algorithm learns patterns associated with spam.
 
 ## 4. What is a Model?
 
-This is extremely important.
+A model is the learned relationship produced from training data.
 
-A common mistake is saying:
-
-"The model learns."
-
-More precisely:
-
-Training an algorithm produces a model.
-
-Think:
+The basic idea is:
 
 Training Data
      ↓
@@ -248,38 +129,18 @@ Learning Algorithm
      ↓
 Trained Model
 
-For example, a simple linear regression model might learn:
+For example, a simple linear regression model can be represented as:
 
 y = wx + b
 
-Suppose training produces:
-
-w = 5000
-b = 100000
-
-Then:
-
-y = 5000x + 100000
-
 Here:
 
-w → parameter
-b → parameter
+w = learned parameter
+b = learned parameter
+x = input
+y = prediction
 
-These are learned parameters.
-
-This distinction becomes very important later when we study:
-
-Parameters
-Hyperparameters
-Optimization
-Gradient descent
-Loss functions
-
-
-
-
-
+The parameters are learned during training.
 
 
 
@@ -289,54 +150,37 @@ Loss functions
 
 ## 5. Features and Target
 
-Suppose our dataset is:
+Consider:
 
 Area	Bedrooms	Age	Price
 1000	2	10	₹40L
 1500	3	5	₹65L
 2000	3	3	₹90L
 
-We want to predict:
-
-Price
-
-Therefore:
 
 Features
-
-The inputs:
-
+The inputs used by the model:
 Area
 Bedrooms
 Age
 
 Usually represented as:
-
 X
+
+
 Target
-
-The thing we're trying to predict:
-
+The value we want to predict:
 Price
 
 Usually represented as:
-
 y
 
 Therefore:
 
 X → y
-
-Remember this permanently
+Remember
 Features = Inputs
-Target   = Answer
-
-For a house-price problem:
-
-X = [area, bedrooms, age]
-y = price
-
-
+Target   = What we want to predict
 
 
 
@@ -349,45 +193,31 @@ y = price
 
 ## 6. Training
 
-Training means using data to find model parameters that perform well on the task.
+Training is the process of finding model parameters that allow the model to perform well on the training data.
 
-The basic process is:
+A simplified training loop looks like this:
 
-Input X
-   ↓
- Model
-   ↓
-Prediction ŷ
-   ↓
-Compare with actual y
-   ↓
+Input
+  ↓
+Model
+  ↓
+Prediction
+  ↓
+Compare with Actual Value
+  ↓
 Loss
-   ↓
-Update model
-   ↓
+  ↓
+Update Model
+  ↓
 Repeat
 
-The symbol:
-
+The model produces a prediction:
 ŷ
 
-means predicted value.
-
-While:
-
+The actual value is:
 y
 
-means actual value.
-
-So:
-
-y  = actual
-ŷ  = prediction
-
-The difference between them contributes to the loss.
-
-We'll go deeply into this when we reach regression and optimization.
-
+The difference between them is used to calculate a loss.
 
 
 
@@ -400,20 +230,23 @@ We'll go deeply into this when we reach regression and optimization.
 
 ## 7. Training vs Inference
 
-Another distinction you must know.
+These are two different stages.
+
+
 
 Training
+The model learns from data.
+
 Data
  ↓
 Learning
  ↓
 Model
 
-The model is learning parameters.
+
 
 Inference
-
-After training:
+The trained model makes predictions on new data.
 
 New Data
    ↓
@@ -421,21 +254,11 @@ Trained Model
    ↓
 Prediction
 
-For example:
 
-Area = 1800
-Bedrooms = 3
-Age = 4
+Simple distinction
+Training  → Model learns
 
-↓
-
-Trained Model
-
-↓
-
-₹78L
-
-This stage is called inference/prediction/serving, depending on context.
+Inference → Model predicts
 
 
 
@@ -445,44 +268,22 @@ This stage is called inference/prediction/serving, depending on context.
 
 
 
+## 8. Types of Machine Learning
 
-
-
-## 8. Main Types of Machine Learning
-
-Our ML world can be organized as:
+The major categories are:
 
 Machine Learning
 │
 ├── Supervised Learning
-│
 ├── Unsupervised Learning
-│
 ├── Semi-Supervised Learning
-│
 ├── Self-Supervised Learning
-│
 └── Reinforcement Learning
 
-Don't worry about mastering all five today.
-
-Our classical ML journey will focus heavily on:
+For classical Machine Learning, the two categories I need to understand first are:
 
 Supervised Learning
-       ↓
- ┌─────┴─────┐
- ↓           ↓
-Regression  Classification
-
-and:
-
 Unsupervised Learning
-       ↓
- ┌─────┼─────────┐
- ↓     ↓         ↓
-K-Means PCA   Anomaly Detection
-
-
 
 
 
@@ -494,9 +295,8 @@ K-Means PCA   Anomaly Detection
 
 ## 9. Supervised Learning
 
-Supervised learning means:
-
-We have input data AND correct answers.
+In supervised learning, we have:
+Input Data + Correct Answers
 
 Example:
 
@@ -506,68 +306,57 @@ Hours Studied	Result
 6	Pass
 8	Pass
 
-The model learns:
+The model learns the relationship:
 
 X → y
 
 where y is known during training.
 
-There are two major supervised learning tasks.
+Supervised learning mainly contains:
+
+Supervised Learning
+       │
+       ├── Regression
+       │
+       └── Classification
 
 
 
 
 
 
-## 9.1 Regression
 
-Predict a continuous numerical value.
+
+
+
+## 10. Regression
+
+Regression is used when we want to predict a continuous numerical value.
 
 Examples:
-
-House Price
+House price
 Salary
 Temperature
 Sales
-Delivery Time
-
-Example:
-
-House features
-      ↓
-Regression Model
-      ↓
-₹75.4 Lakhs
-
-The output is numerical.
+Delivery time
 
 
 
 
 
-## 9.2 Classification
 
-Predict a class/category.
+
+
+## 11. Classification
+
+Classification is used when we want to predict a category.
 
 Examples:
-
 Spam / Not Spam
 Fraud / Not Fraud
 Cat / Dog
 Pass / Fail
 
-Example:
-
-Email
- ↓
-Classification Model
- ↓
-Spam
-
-Make this automatic:
-Predict a number → Regression
-
-Predict a category → Classification
 
 
 
@@ -575,51 +364,65 @@ Predict a category → Classification
 
 
 
+## 12. Regression vs Classification
+
+This distinction should become automatic.
+
+Problem	                  Type
+Predict house price   	Regression
+Predict salary	        Regression
+Predict temperature  	Regression
+Detect spam	            Classification
+Detect fraud        	Classification
+Predict pass/fail   	Classification
+
+The simplest rule:
+
+Numerical value → Regression
+
+Category/Class → Classification
 
 
 
 
-## 10. Unsupervised Learning
-
-Here:
-
-X = available
-y = NOT available
-
-The algorithm tries to discover structure in the data.
-
-Example:
-
-Customer Data
-
-● ● ●
 
 
-              ● ● ●
 
-The algorithm might discover two customer groups.
 
-That's clustering.
 
-Common algorithms:
+## 13. Unsupervised Learning
 
+In unsupervised learning, we don't have target labels.
+The model tries to discover useful patterns or structure in the data.
+
+Important unsupervised learning tasks include:
+
+
+Clustering
+Finding groups in data.
+
+Examples:
 K-Means
 DBSCAN
 Hierarchical Clustering
-
-Other important unsupervised tasks include:
-
 Dimensionality Reduction
-    ↓
+
+
+Reducing the number of features while preserving useful information.
+
+Examples:
 PCA
 t-SNE
 UMAP
-
 Anomaly Detection
-    ↓
-Isolation Forest
-One-Class SVM
-LOF
+
+
+Finding unusual observations.
+
+Examples:
+Fraud detection
+Network attacks
+Unusual transactions
 
 
 
@@ -630,73 +433,110 @@ LOF
 
 
 
+## 14. Generalization
 
-## 11. The Most Important Decision Tree in Your Head
+A model shouldn't simply memorize the training data.
 
-Whenever you receive an ML problem, ask:
+The real goal is:
+
+Learn useful patterns from training data and perform well on unseen data.
+
+This is called generalization.
+
+Generalization is one of the central goals of Machine Learning.
+
+
+
+
+
+
+
+
+## 15. Overfitting
+
+Overfitting happens when a model learns the training data too specifically.
+
+For example:
+
+Training Performance → Excellent
+Test Performance     → Poor
+
+The model may have memorized the training examples instead of learning patterns that generalize.
+
+
+
+
+
+
+
+
+
+## 16. Underfitting
+
+Underfitting happens when the model is too simple to capture the important patterns.
+
+Training Performance → Poor
+Test Performance     → Poor
+
+
+
+
+
+
+
+
+## 17. How to Formulate an ML Problem
+
+Before choosing an algorithm, ask:
 
 Question 1
 
-What are we trying to predict/discover?
+What am I trying to predict or discover?
 
 Question 2
 
-Do we have labels?
+Do I have labels?
 
-          Labels?
-         /       \
-       Yes        No
-        ↓          ↓
-   Supervised   Unsupervised
+Labels?
+ /    \
+Yes    No
+ ↓      ↓
+Supervised
+         Unsupervised
 
-If supervised:
+If supervised, ask:
 
-       Target?
-       /      \
- Continuous   Category
-     ↓           ↓
- Regression  Classification
+Question 3
 
-This is your first ML problem-formulation skill.
+What type of target do I have?
 
+Target
+ /    \
+Number Category
+  ↓       ↓
+Regression Classification
+Example
 
+Predict employee salary:
 
+Features
+experience
+education
+skills
+location
 
-
-      
-      
-      
-      
-## 12. Generalization
-
-This is one of the most important concepts in all of ML.
-
-Suppose:
-
-Training accuracy = 99.9%
-Test accuracy     = 60%
-
-That's not necessarily a good model.
-
-Why?
-
-Because the model may have memorized the training data instead of learning patterns that work on new data.
-
-What we actually want is:
-
-Generalization — learning patterns from training data that also work on unseen data.
-
-This idea will eventually lead us to:
-
-Train / Validation / Test
         ↓
-Cross-validation
-        ↓
-Overfitting
-        ↓
-Regularization
-        ↓
-Bias-Variance
+
+Target
+salary
+
+Salary is numerical.
+
+Therefore:
+
+Supervised
+    ↓
+Regression
 
 
 
@@ -706,72 +546,32 @@ Bias-Variance
 
 
 
-## 13. Underfitting vs Good Fit vs Overfitting
-Underfitting
 
-Model is too simple.
+## 18. The Complete ML Picture
 
-Training → Poor
-Test     → Poor
+This is the roadmap I want to keep in mind as I continue learning:
 
-It hasn't learned enough.
+Problem
+   ↓
+Data
+   ↓
+Problem Formulation
+   ↓
+Data Preparation
+   ↓
+Feature Engineering
+   ↓
+Model Selection
+   ↓
+Training
+   ↓
+Validation
+   ↓
+Evaluation
+   ↓
+Hyperparameter Tuning
+   ↓
+Deployment
+   ↓
+Monitoring
 
-Good Fit
-Training → Good
-Test     → Good
-Overfitting
-
-Model learns the training data too specifically.
-
-Training → Excellent
-Test     → Poor
-
-Think:
-
-Too Simple        Good              Too Complex
-    ↓              ↓                    ↓
-Underfitting   Generalization      Overfitting
-
-
-
-
-
-
-
-
-
-## 14. The Complete ML Mental Model
-
-This is the big picture we are going to build toward:
-
-                     DATA
-                       │
-                       ▼
-              Problem Formulation
-                       │
-                ┌──────┴──────┐
-                │             │
-             Labels?        No Labels
-                │             │
-               Yes            ↓
-                │        Unsupervised
-                ↓
-           Supervised
-                │
-          ┌─────┴─────┐
-          ↓           ↓
-     Regression   Classification
-          │           │
-          └─────┬─────┘
-                ↓
-             MODEL
-                ↓
-             TRAINING
-                ↓
-           VALIDATION
-                ↓
-             TESTING
-                ↓
-           DEPLOYMENT
-                ↓
-            MONITORING
