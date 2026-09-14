@@ -1,0 +1,98 @@
+---
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog"))
+  .filter((post) => post.id.startsWith("machine-learning/"))
+  .sort((a, b) => a.id.localeCompare(b.id));
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Machine Learning | Nithish</title>
+    <meta
+      name="description"
+      content="Machine Learning learning journey by Nithish."
+    />
+  </head>
+
+  <body>
+    <main>
+      <a href="/blog/">&larr; Back to Blog</a>
+
+      <h1>Machine Learning</h1>
+
+      <p>
+        My journey from Machine Learning fundamentals to practical model
+        building and deployment.
+      </p>
+
+      <section>
+        {
+          posts.map((post, index) => (
+            <a href={`/blog/${post.id}/`} class="post">
+              <span>Journey #{String(index + 1).padStart(2, "0")}</span>
+              <h2>{post.data.title}</h2>
+              <p>{post.data.description}</p>
+            </a>
+          ))
+        }
+      </section>
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    font-family: system-ui, sans-serif;
+  }
+
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  a {
+    color: #aaa;
+    text-decoration: none;
+  }
+
+  h1 {
+    font-size: 48px;
+    margin-top: 50px;
+  }
+
+  section {
+    margin-top: 40px;
+    display: grid;
+    gap: 20px;
+  }
+
+  .post {
+    display: block;
+    padding: 24px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    background: #111;
+  }
+
+  .post span {
+    color: #888;
+    font-size: 14px;
+  }
+
+  .post h2 {
+    color: #fff;
+    margin: 8px 0;
+  }
+
+  .post p {
+    color: #aaa;
+    line-height: 1.6;
+  }
+</style>
