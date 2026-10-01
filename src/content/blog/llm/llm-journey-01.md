@@ -351,20 +351,20 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-# Data
+#Data
 x = torch.tensor([[1.0]])
 y = torch.tensor([[2.0]])
 
-# Model
+#Model
 model = nn.Linear(1, 1)
 
-# Loss
+#Loss
 loss_function = nn.MSELoss()
 
-# Optimizer
+#Optimizer
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 
-# Training
+#Training
 for epoch in range(100):
 
     # 1. Clear old gradients
