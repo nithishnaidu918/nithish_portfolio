@@ -222,7 +222,7 @@ backward() walks backward through the graph and applies the chain rule.
 
 
 ## 10. Simplified Micrograd Code
-
+'''python
 class Value:
 
     def __init__(self, data, _children=()):
@@ -258,7 +258,7 @@ class Value:
 
         out._backward = backward
         return out
-
+'''
 The important part:
 
 self.grad += ...
@@ -298,7 +298,7 @@ PyTorch's autograd calculates this automatically.
 
 
 ## 12. PyTorch Training Loop
-
+'''python
 The basic PyTorch training order is:
 
 optimizer.zero_grad()
@@ -340,13 +340,13 @@ Step 5 — Update Parameters
 optimizer.step()
 
 Update the weights using the gradients.
-
+'''
 
 
 
 
 ## 13. Complete PyTorch Example
-
+'''python
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -383,3 +383,4 @@ for epoch in range(100):
     optimizer.step()
 
     print(loss.item())
+    '''
