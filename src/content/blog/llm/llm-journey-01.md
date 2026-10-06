@@ -106,14 +106,6 @@ c = 4
 d = a + b
 e = d * c
 
-Graph:
-
-a ──┐
-    + ──> d ──┐
-b ──┘         × ──> e
-              │
-c ────────────┘
-
 Forward:
 
 Inputs → Operations → Output
@@ -236,7 +228,7 @@ backward() walks backward through the graph and applies the chain rule.
 
 
 ## 10. Simplified Micrograd Code
-
+'''python
 class Value:
 
     def __init__(self, data, _children=()):
@@ -271,7 +263,7 @@ class Value:
             other.grad += self.data * out.grad
 
         out._backward = backward
-        return out
+        return out'''
 
 The important part:
 
@@ -357,7 +349,7 @@ Update the weights using the gradients.
 
 
 ## 13. Complete PyTorch Example
-python'''
+'''python
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -372,5 +364,4 @@ for epoch in range(100):
     loss = loss_function(output, y)
     loss.backward()
     optimizer.step()
-    print(loss.item())
-'''
+    print(loss.item())'''
