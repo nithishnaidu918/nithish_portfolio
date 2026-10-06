@@ -10,6 +10,8 @@ tags: ["LLM", "Transformers", "Tokenization"]
 
 This journey focuses on the foundation behind neural-network training: autograd, derivatives, computational graphs, and backpropagation.
 
+
+
 ## 1. What is Karpathy Building?
 
 In micrograd, Karpathy builds a very small version of backpropagation/autograd from scratch.
@@ -26,6 +28,17 @@ Calculate Gradients
     ↓
 Update Weights
 
+Main concepts:
+
+Computational graph
+
+Derivatives
+
+Chain rule
+
+Gradients
+
+Backpropagation
 
 
 
@@ -54,6 +67,7 @@ If the input changes slightly, how does the output change?
 
 
 
+
 ## 3. Chain Rule
 
 The chain rule is the core of backpropagation.
@@ -73,7 +87,8 @@ Therefore:
 dy/dx = 3
 dz/dy = 4
 
-dz/dx = 4 × 3 = 12
+dz/dx = 4 × 3
+      = 12
 
 The gradient travels backward by multiplying local derivatives.
 
@@ -144,7 +159,6 @@ a.grad += dz * b
 b.grad += dz * a
 
 This is the chain rule being applied locally.
-
 
 
 
@@ -222,7 +236,7 @@ backward() walks backward through the graph and applies the chain rule.
 
 
 ## 10. Simplified Micrograd Code
-'''python
+
 class Value:
 
     def __init__(self, data, _children=()):
@@ -258,7 +272,7 @@ class Value:
 
         out._backward = backward
         return out
-'''
+
 The important part:
 
 self.grad += ...
@@ -296,9 +310,8 @@ PyTorch's autograd calculates this automatically.
 
 
 
-
 ## 12. PyTorch Training Loop
-'''python
+
 The basic PyTorch training order is:
 
 optimizer.zero_grad()
@@ -340,47 +353,24 @@ Step 5 — Update Parameters
 optimizer.step()
 
 Update the weights using the gradients.
-'''
-
 
 
 
 ## 13. Complete PyTorch Example
-'''python
+python'''
 import torch
 import torch.nn as nn
 import torch.optim as optim
-
-#Data
 x = torch.tensor([[1.0]])
 y = torch.tensor([[2.0]])
-
-#Model
 model = nn.Linear(1, 1)
-
-#Loss
 loss_function = nn.MSELoss()
-
-#Optimizer
 optimizer = optim.SGD(model.parameters(), lr=0.01)
-
-#Training
 for epoch in range(100):
-
-    # 1. Clear old gradients
     optimizer.zero_grad()
-
-    # 2. Forward pass
     output = model(x)
-
-    # 3. Calculate loss
     loss = loss_function(output, y)
-
-    # 4. Backward pass
     loss.backward()
-
-    # 5. Update parameters
     optimizer.step()
-
     print(loss.item())
-    '''
+'''
