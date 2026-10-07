@@ -311,14 +311,14 @@ The important improvement is that the model can now use multiple characters of c
 
 
 ## 17. Core Code
-'''python
+```python
 import torch
 import torch.nn.functional as F
-# Parameters
+#Parameters
 vocab_size = 27
 embedding_dim = 10
 hidden_size = 200
-# Parameters to learn
+#Parameters to learn
 C = torch.randn(vocab_size,embedding_dim)
 W1 = torch.randn(embedding_dim * 3,hidden_size)
 b1 = torch.randn(hidden_size)
