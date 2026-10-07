@@ -6,7 +6,7 @@ category: "LLM"
 tags: ["LLM", "Transformers", "Tokenization"]
 ---
 
-# LLM Journey #2 - Makemore, Bigram Language Model & Neural Network
+# LLM Journey #2 -  Bigram Language Model & Neural Network
 
 Learning how a simple character-level language model goes from counting characters to a trainable neural network.
 
@@ -539,11 +539,13 @@ loss += 0.01 * (W**2).mean()
 
 
 L2 regularization
-loss.backward()
+'''python
+loss.backward()'''
 
 
 Backpropagation
-W.data += -0.1 * W.grad
+'''python
+W.data += -0.1 * W.grad'''
 
 
 Gradient descent
@@ -552,20 +554,27 @@ Gradient descent
 
 ## 27. PyTorch Gives Us the Cleaner Version
 Instead of manually calculating:
-counts = logits.exp()probs = counts / counts.sum(    dim=1,    keepdim=True)loss = -probs[    torch.arange(len(ys)),    ys].log().mean()
+'''python
+counts = logits.exp()probs = counts / counts.sum(dim=1,keepdim=True)
+loss = -probs[torch.arange(len(ys)),ys].log().mean()'''
 
 
 we can use:
-loss = F.cross_entropy(logits, ys)
+'''python
+loss = F.cross_entropy(logits, ys)'''
 
 
 CrossEntropyLoss handles the appropriate log-softmax and negative log-likelihood calculation.
 Instead of manually updating:
-W.data += -0.1 * W.grad
+'''python
+W.data += -0.1 * W.grad'''
 
 
 we normally use an optimizer:
-optimizer.zero_grad()loss.backward()optimizer.step()
+'''python
+optimizer.zero_grad()
+loss.backward()
+optimizer.step()'''
 
 
 
