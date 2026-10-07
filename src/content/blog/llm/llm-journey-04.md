@@ -100,8 +100,9 @@ This can cause problems.
 ## 5. Tanh Saturation
 tanh produces values between -1 and 1.
 For example:
-'''python
-torch.tanh(torch.tensor(10.0))'''
+```python
+torch.tanh(torch.tensor(10.0))
+```
 is approximately:
 1
 
@@ -151,11 +152,15 @@ This is called the vanishing-gradient problem.
 ## 7. First Fix: Smaller Weights
 One simple solution is to initialize weights with a smaller scale.
 Instead of:
+```python
 W = torch.randn(...)
+```
 
 
 we could use:
+```python
 W = torch.randn(...) * 0.2
+```
 
 
 This keeps the activations smaller and helps tanh stay in a healthier range.
@@ -172,9 +177,13 @@ For the tanh network, Karpathy uses a gain of approximately:
 5/3
 
 Example:
-'''python
-W1 = torch.randn(n_embd * block_size,n_hidden) * (5/3) / ((n_embd * block_size) ** 0.5)
-'''
+```python
+W1 = (
+    torch.randn(n_embd * block_size, n_hidden)
+    * (5 / 3)
+    / ((n_embd * block_size) ** 0.5)
+)
+```
 The goal is to keep activations at a sensible scale across layers.    Pasted markdown
 
 
@@ -197,7 +206,9 @@ Everything else → almost 0
 
 This can produce unnecessarily bad initial loss.
 Karpathy reduces the scale of the final BatchNorm gain:
+```python
 layers[-1].gamma *= 0.1
+```
 
 
 This makes the initial predictions less extreme.    Pasted markdown
@@ -262,7 +273,11 @@ So BatchNorm gives the network control over the normalized values.    Pasted mar
 
 ## 14. BatchNorm From Scratch
 Karpathy implements the main idea manually:
-bnmeani = hpreact.mean(    0,    keepdim=True)bnstdi = hpreact.std(    0,    keepdim=True)hpreact = (    bngain *    (hpreact - bnmeani) /    bnstdi    + bnbias)
+```python
+bnmeani = hpreact.mean(0, keepdim=True)
+bnstdi = hpreact.std(0, keepdim=True)
+hpreact = bngain * (hpreact - bnmeani) / bnstdi + bnbias
+```
 
 
 This is the core BatchNorm operation.
@@ -270,11 +285,15 @@ This is the core BatchNorm operation.
 
 ## 15. Why mean(0)?
 Suppose:
+```python
 batch_size = 32
 hidden_neurons = 200
+```
 
 Then:
-hpreact shape = (32, 200)
+```python
+hpreact.shape == (32, 200)
+```
 
 We want to normalize each neuron across the batch.
 So:
@@ -292,7 +311,9 @@ running mean
 running std
 
 They are updated using a moving average:
-bnmean_running = (    0.999 * bnmean_running    + 0.001 * bnmeani)
+```python
+bnmean_running = 0.999 * bnmean_running + 0.001 * bnmeani
+```
 
 
 Training:
@@ -324,7 +345,9 @@ y = xW + b
 But BatchNorm immediately normalizes the output.
 Therefore, the Linear bias becomes largely unnecessary.
 So Karpathy uses:
-torch.nn.Linear(    fan_in,    fan_out,    bias=False)
+```python
+torch.nn.Linear(fan_in, fan_out, bias=False)
+```
 
 
 followed by BatchNorm.
@@ -398,7 +421,9 @@ These diagnostics help identify problems in deep networks.    Pasted markdown
 ## 22. Activation Statistics
 Karpathy checks the outputs of the tanh layers.
 For example:
+```python
 (t.abs() > 0.97).float().mean()
+```
 
 
 This tells us how many activations are close to -1 or 1.
@@ -413,12 +438,16 @@ Poor learning
 
 ## 23. Gradient Distribution
 After:
+```python
 loss.backward()
+```
 
 
 we can inspect gradients.
 For example:
+```python
 layer.out.grad
+```
 
 
 We want to know whether gradients are:
@@ -444,7 +473,9 @@ Is the gradient too large or too small compared with the parameter?
 
 ## 25. Update:data Ratio
 The update is approximately:
-update = learning_rate × gradient
+```python
+update = learning_rate * gradient
+```
 
 We compare:
 update
@@ -470,7 +501,9 @@ This is the practical balance to look for.
 ## 26. Learning-Rate Decay
 Karpathy reduces the learning rate later in training.
 Example:
+```python
 lr = 0.1 if i < 150000 else 0.01
+```
 
 
 So:
@@ -485,7 +518,9 @@ This is learning-rate decay.
 
 ## 27. Mini-Batches
 Instead of using the entire dataset every iteration, Karpathy selects a small random batch.
-ix = torch.randint(    0,    Xtr.shape[0],    (batch_size,))
+```python
+ix = torch.randint(0, Xtr.shape[0], (batch_size,))
+```
 
 
 For example:
@@ -528,13 +563,15 @@ This makes the network easier to build and manage.
 
 ## 30. Custom Linear Layer
 Conceptually:
-'''python
-class Linear:    
-    def __init__(self, fan_in, fan_out):        
-           self.weight = ...        
-            self.bias = ...    
-    def __call__(self, x):        
-            return x @ self.weight + self.bias'''
+```python
+class Linear:
+    def __init__(self, fan_in, fan_out):
+        self.weight = ...
+        self.bias = ...
+
+    def __call__(self, x):
+        return x @ self.weight + self.bias
+```
 
 
 A Linear layer is essentially:
@@ -544,12 +581,24 @@ Matrix multiplication + bias
 
 ## 31. Custom Tanh Layer
 Very simple:
-class Tanh:    def __call__(self, x):        return torch.tanh(x)
+```python
+class Tanh:
+    def __call__(self, x):
+        return torch.tanh(x)
+```
 
 
 Now layers can be combined:
-'''python
-layers = [Linear(...),BatchNorm1d(...),Tanh(),Linear(...),BatchNorm1d(...),Tanh(),]'''
+```python
+layers = [
+    Linear(...),
+    BatchNorm1d(...),
+    Tanh(),
+    Linear(...),
+    BatchNorm1d(...),
+    Tanh(),
+]
+```
 
 
 
@@ -564,7 +613,10 @@ BN2
 ...
 
 we can simply have:
-for layer in layers:    x = layer(x)
+```python
+for layer in layers:
+    x = layer(x)
+```
 
 
 This is the basic idea behind reusable neural-network layers.
@@ -573,8 +625,13 @@ This is the basic idea behind reusable neural-network layers.
 ## 33. Collecting Parameters
 Each layer can provide its trainable parameters.
 Conceptually:
-'''python
-parameters = [p    for layer in layers    for p in layer.parameters()]'''
+```python
+parameters = [
+    p
+    for layer in layers
+    for p in layer.parameters()
+]
+```
 
 
 Now training can work with all parameters automatically.
@@ -582,8 +639,17 @@ Now training can work with all parameters automatically.
 
 ## 34. PyTorch Equivalent
 What Karpathy builds manually is similar to:
-'''python
-model = torch.nn.Sequential(torch.nn.Linear(...),torch.nn.BatchNorm1d(...),torch.nn.Tanh(),torch.nn.Linear(...),torch.nn.BatchNorm1d(...),torch.nn.Tanh(),torch.nn.Linear(...))'''
+```python
+model = torch.nn.Sequential(
+    torch.nn.Linear(...),
+    torch.nn.BatchNorm1d(...),
+    torch.nn.Tanh(),
+    torch.nn.Linear(...),
+    torch.nn.BatchNorm1d(...),
+    torch.nn.Tanh(),
+    torch.nn.Linear(...),
+)
+```
 
 
 The important idea is:
@@ -593,11 +659,20 @@ PyTorch layers are abstractions over operations we can understand and implement 
 
 ## 35. Training Still Uses Backpropagation
 Even with the deeper network:
-'''python
-loss.backward()'''
+```python
+loss.backward()
+```
 is still used.
 The basic training loop remains:
-for p in parameters:    p.grad = Noneloss.backward()for p in parameters:    p.data += -lr * p.grad
+```python
+for p in parameters:
+    p.grad = None
+
+loss.backward()
+
+for p in parameters:
+    p.data += -lr * p.grad
+```
 
 
 The difference is that there are now many more layers and parameters.
@@ -631,7 +706,8 @@ Update context
 Repeat
 
 Conceptually:
-'''python
+```python
 probs = F.softmax(logits, dim=1)
-ix = torch.multinomial(probs, num_samples=1)'''
+ix = torch.multinomial(probs, num_samples=1)
+```
 Then the context is updated and the process continues until the end token is generated.
