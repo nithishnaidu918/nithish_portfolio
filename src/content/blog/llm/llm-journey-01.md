@@ -266,7 +266,7 @@ class Value:
 
 The important part:
 
-self.grad += ...
+self.grad += ...   ,
 other.grad += ...
 
 This is gradient propagation.

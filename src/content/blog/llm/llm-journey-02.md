@@ -29,8 +29,8 @@ For:
 emma
 
 we create:
-e → m
-m → m
+e → m  ,
+m → m  ,
 m → a
 
 So:
@@ -571,7 +571,8 @@ we normally use an optimizer:
 ```python
 optimizer.zero_grad()
 loss.backward()
-optimizer.step()```
+optimizer.step()
+```
 
 
 

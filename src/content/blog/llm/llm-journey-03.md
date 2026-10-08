@@ -109,7 +109,8 @@ Instead of a large one-hot vector, the model learns a compact representation for
 ## 6. Embedding Matrix C
 Karpathy creates an embedding matrix:
 ```python
-C = torch.randn(vocab_size,embedding_dim)```
+C = torch.randn(vocab_size,embedding_dim)
+```
 
 
 
@@ -210,7 +211,8 @@ So:
 ## 11. Why tanh?
 After the first linear layer:
 ```python
-h = torch.tanh(h)```
+h = torch.tanh(h)
+```
 
 
 tanh is an activation function.
@@ -227,7 +229,8 @@ tanh
 Next:
 ```python
 W2 = torch.randn(100, vocab_size)
-b2 = torch.randn(vocab_size)```
+b2 = torch.randn(vocab_size)
+```
 
 
 Then:
@@ -253,7 +256,8 @@ probabilities
 
 Then we calculate the loss:
 ```python
-loss = F.cross_entropy(logits, Y)```
+loss = F.cross_entropy(logits, Y)
+```
 
 
 The goal is:
@@ -290,7 +294,8 @@ So now the embeddings and neural-network weights are all learned.
 ## 15. PyTorch Version
 The MLP can be represented more cleanly:
 ```python
-model = torch.nn.Sequential(torch.nn.Linear(6, 100),torch.nn.Tanh(),torch.nn.Linear(100, 27))```
+model = torch.nn.Sequential(torch.nn.Linear(6, 100),torch.nn.Tanh(),torch.nn.Linear(100, 27))
+```
 
 
 Training:
@@ -299,7 +304,8 @@ logits = model(x)
 loss = F.cross_entropy(logits, Y)
 optimizer.zero_grad()
 loss.backward()
-optimizer.step()```
+optimizer.step()
+```
 
 
 This follows the standard PyTorch training pattern.
@@ -353,7 +359,7 @@ learning_rate = 0.1
 
 for p in parameters:
     p.data += -learning_rate * p.grad
-    
+
 for step in range(10000):
 
     # Forward pass
@@ -375,3 +381,5 @@ for step in range(10000):
     # Update
     for p in parameters:
         p.data += -0.1 * p.grad
+        
+```
