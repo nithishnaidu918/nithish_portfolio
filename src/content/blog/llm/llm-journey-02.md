@@ -1,7 +1,6 @@
 ---
 title: "LLM Journey #2 - Makemore, Bigram Language Model & Neural Network"
 description: "Learning how a simple character-level language model goes from counting characters to a trainable neural network."
-date: "2026-10-06"
 category: "LLM"
 tags: ["LLM", "Transformers", "Tokenization"]
 ---
@@ -25,6 +24,7 @@ it predicts the next character:
 
 ## 2. Bigram
 A bigram uses one character to predict the next character.
+
 For:
 emma
 
@@ -35,8 +35,11 @@ m → a
 
 So:
 input    target
+
 e        m
+
 m        m
+
 m        a
 
 The model only looks at one previous character.
@@ -45,13 +48,13 @@ The model only looks at one previous character.
 
 ## 3. Counting Bigrams
 Suppose the dataset contains:
-emma
-emma
+emma ,
+emma ,
 emma
 
 We count how often characters follow each other.
-e → m : 3
-m → m : 3
+e → m : 3 ,
+m → m : 3 ,
 m → a : 3
 
 These counts can be stored in a matrix.
@@ -67,23 +70,23 @@ This count matrix is the first simple model.
 ## 4. Convert Counts into Probabilities
 Counts are not probabilities yet.
 Suppose:
-m → a = 10
-m → e = 5
+m → a = 10 ,
+m → e = 5 ,
 m → i = 5
 
 Total:
 20
 
 Normalize:
-P(a | m) = 10 / 20 = 0.50
-P(e | m) = 5 / 20  = 0.25
+P(a | m) = 10 / 20 = 0.50   ,
+P(e | m) = 5 / 20  = 0.25   ,
 P(i | m) = 5 / 20  = 0.25
 
 The probabilities add up to 1.
 counts
-   ↓
+   → 
 normalize
-   ↓
+   → 
 probabilities
 
 
@@ -93,8 +96,8 @@ Suppose the current character is:
 m
 
 The model predicts:
-a → 0.50
-e → 0.25
+a → 0.50 ,
+e → 0.25 ,
 i → 0.25
 
 We sample the next character.
@@ -116,8 +119,8 @@ Suppose the real name is:
 emma
 
 The model predicts:
-P(m | e) = 0.40
-P(m | m) = 0.30
+P(m | e) = 0.40 ,
+P(m | m) = 0.30 ,
 P(a | m) = 0.20
 
 Probability of the sequence:
@@ -164,13 +167,13 @@ This gives:
 Negative Log Likelihood (NLL).
 The connection is:
 Maximum likelihood
-        ↓
+        → 
 maximize probability
-        ↓
+        → 
 maximize log probability
-        ↓
+        → 
 minimize negative log probability
-        ↓
+        → 
 NLL loss
 
 
@@ -214,18 +217,19 @@ counts → normalize → probabilities
 
 we let a neural network learn the parameters.
 The basic process is:
+
 character
-    ↓
+    → 
 one-hot encoding
-    ↓
+    → 
 weights W
-    ↓
+    → 
 logits
-    ↓
+    → 
 softmax
-    ↓
+    → 
 probabilities
-    ↓
+    → 
 loss
 
 
@@ -234,17 +238,17 @@ Suppose the vocabulary is:
 [a, b, c, d, e]
 
 Assign integers:
-a = 0
-b = 1
-c = 2
-d = 3
+a = 0 ,
+b = 1 ,
+c = 2 ,
+d = 3 ,
 e = 4
 
 One-hot representation:
-a → [1, 0, 0, 0, 0]
-b → [0, 1, 0, 0, 0]
-c → [0, 0, 1, 0, 0]
-d → [0, 0, 0, 1, 0]
+a → [1, 0, 0, 0, 0]   ,
+b → [0, 1, 0, 0, 0]   ,
+c → [0, 0, 1, 0, 0]   ,
+d → [0, 0, 0, 1, 0]   ,
 e → [0, 0, 0, 0, 1]
 
 Only one position is 1.
@@ -284,11 +288,11 @@ pᵢ = eᶻⁱ / Σ eᶻʲ
 
 So:
 logits
-   ↓
+   → 
 exponential
-   ↓
+   → 
 normalize
-   ↓
+   → 
 probabilities
 
 Example:
@@ -343,17 +347,7 @@ W = random
 
 So predictions are poor.
 Training follows:
-forward
-   ↓
-probabilities
-   ↓
-loss
-   ↓
-backward
-   ↓
-gradient
-   ↓
-update W
+forward   →    probabilities   →   loss   →   backward   →   gradient  →   update W
 
 PyTorch calculates the gradient:
 loss.backward()
@@ -370,12 +364,12 @@ This process repeats many times.
 ## 20. Gradient Descent
 The goal is to reduce the loss.
 The gradient tells us which direction each parameter should move.
-Formula:
-W = W - η ∂L/∂W
+
+Formula:W = W - η ∂L/∂W
 
 where:
-W = weights
-L = loss
+W = weights  ,
+L = loss  ,
 η = learning rate
 
 In simple code:
@@ -401,7 +395,7 @@ the change is:
 0.01
 
 So:
-large learning rate → big steps
+large learning rate → big steps  ,
 small learning rate → small steps
 
 
@@ -435,32 +429,32 @@ keep weights reasonable
 There are two approaches.
 Counting
 training data
-    ↓
+    → 
 count bigrams
-    ↓
+    → 
 normalize counts
-    ↓
+    → 
 probabilities
 
 Neural Network
 training data
-    ↓
+    → 
 one-hot
-    ↓
+    → 
 W
-    ↓
+    → 
 logits
-    ↓
+    → 
 softmax
-    ↓
+    → 
 probabilities
-    ↓
+    → 
 NLL
-    ↓
+    → 
 backpropagation
-    ↓
+    → 
 gradient descent
-    ↓
+    → 
 W
 
 Both can learn essentially the same bigram distribution.
@@ -554,27 +548,31 @@ Gradient descent
 
 ## 27. PyTorch Gives Us the Cleaner Version
 Instead of manually calculating:
-'''python
-counts = logits.exp()probs = counts / counts.sum(dim=1,keepdim=True)
-loss = -probs[torch.arange(len(ys)),ys].log().mean()'''
+```python
+counts = logits.exp()
+probs = counts / counts.sum(dim=1,keepdim=True)
+loss = -probs[torch.arange(len(ys)),ys].log().mean()```
+
 
 
 we can use:
-'''python
-loss = F.cross_entropy(logits, ys)'''
+```python
+loss = F.cross_entropy(logits, ys)```
+
 
 
 CrossEntropyLoss handles the appropriate log-softmax and negative log-likelihood calculation.
-Instead of manually updating:
-'''python
-W.data += -0.1 * W.grad'''
 
+Instead of manually updating:
+```python
+W.data += -0.1 * W.grad```
 
 we normally use an optimizer:
-'''python
+```python
 optimizer.zero_grad()
 loss.backward()
-optimizer.step()'''
+optimizer.step()```
+
 
 
 

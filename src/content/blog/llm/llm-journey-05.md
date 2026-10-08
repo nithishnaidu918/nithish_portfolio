@@ -1,7 +1,6 @@
 ---
 title: "LLM Journey #5 "
 description: "Doing BackProp manually and understanding what pytorch was doing with loss.backward()."
-date: "2026-10-08"
 category: "LLM"
 tags: ["LLM", "Transformers", "Tokenization"]
 ---

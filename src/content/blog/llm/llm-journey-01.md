@@ -1,7 +1,6 @@
 ---
 title: "LLM Journey #1 - Foundations"
 description: "Beginning a structured journey through the foundations of Large Language Models."
-date: "2026-09-17"
 category: "LLM"
 tags: ["LLM", "Transformers", "Tokenization"]
 ---
@@ -17,15 +16,15 @@ This journey focuses on the foundation behind neural-network training: autograd,
 In micrograd, Karpathy builds a very small version of backpropagation/autograd from scratch.
 
 Forward Pass
-    ↓
+    → 
 Calculate Output
-    ↓
+    → 
 Calculate Loss
-    ↓
+    → 
 Backward Pass
-    ↓
+    → 
 Calculate Gradients
-    ↓
+    → 
 Update Weights
 
 Main concepts:
@@ -46,7 +45,7 @@ Backpropagation
 
 Suppose:
 
-x = 3
+x = 3 , 
 y = x * x
 
 Mathematically:
@@ -78,13 +77,13 @@ dz/dx = (dz/dy) × (dy/dx)
 
 Example:
 
-x = 2
-y = x * 3
+x = 2 ,
+y = x * 3 ,
 z = y * 4
 
 Therefore:
 
-dy/dx = 3
+dy/dx = 3 ,
 dz/dy = 4
 
 dz/dx = 4 × 3
@@ -99,11 +98,11 @@ The gradient travels backward by multiplying local derivatives.
 
 Consider:
 
-a = 2
-b = 3
+a = 2 ,
+b = 3 ,
 c = 4
 
-d = a + b
+d = a + b ,
 e = d * c
 
 Forward:
@@ -125,12 +124,12 @@ For:
 
 z = a + b
 
-dz/da = 1
+dz/da = 1 ,
 dz/db = 1
 
 So:
 
-a.grad += dz
+a.grad += dz ,
 b.grad += dz
 
 
@@ -142,12 +141,12 @@ For:
 
 z = a * b
 
-dz/da = b
+dz/da = b ,
 dz/db = a
 
 So:
 
-a.grad += dz * b
+a.grad += dz * b ,
 b.grad += dz * a
 
 This is the chain rule being applied locally.
@@ -166,7 +165,7 @@ There are two paths from a to z.
 
 Therefore the gradients must be accumulated:
 
-a.grad += ...
+a.grad += ... ,
 a.grad += ...
 
 This is why gradients accumulate.
@@ -195,7 +194,7 @@ The pattern is:
 Upstream Gradient
        ×
 Local Derivative
-       ↓
+       → 
 Input Gradient
 
 
@@ -203,7 +202,7 @@ Input Gradient
 
 ## 9. What Does Micrograd Store?
 
-Micrograd creates a computational graph.
+Micrograd creates a computational graph. 
 
 Each value keeps:
 
@@ -214,10 +213,10 @@ backward function
 
 Conceptually:
 
-a = Value(2)
+a = Value(2) ,
 b = Value(3)
 
-c = a + b
+c = a + b ,
 d = c * 4
 
 d.backward()
@@ -349,7 +348,7 @@ Update the weights using the gradients.
 
 
 ## 13. Complete PyTorch Example
-'''python
+```python
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -364,4 +363,4 @@ for epoch in range(100):
     loss = loss_function(output, y)
     loss.backward()
     optimizer.step()
-    print(loss.item())'''
+    print(loss.item())```
