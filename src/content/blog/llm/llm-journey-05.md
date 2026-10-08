@@ -14,32 +14,33 @@ loss.backward()
 
 
 PyTorch calculated all the gradients for us.
+
 Part 4 asks:
 What is actually happening inside loss.backward()?
 
-Instead of trusting autograd, we manually calculate the gradients and compare them with PyTorch's gradients.    Pasted markdown
+Instead of trusting autograd, we manually calculate the gradients and compare them with PyTorch's gradients.
 
 
 ## 2. Same Model as Part 3
 The architecture is still essentially the same:
 Characters
-    ↓
+    → 
 Embedding
-    ↓
+    → 
 Concatenate
-    ↓
+    → 
 Linear
-    ↓
+    → 
 BatchNorm
-    ↓
+    → 
 tanh
-    ↓
+    → 
 Linear
-    ↓
+    → 
 Logits
-    ↓
+    → 
 Cross Entropy
-    ↓
+    → 
 Loss
 
 The difference is that now we manually go backward through every operation.    Pasted markdown
@@ -47,21 +48,32 @@ The difference is that now we manually go backward through every operation.    P
 
 ## 3. Forward Pass
 The forward pass can be broken into small operations:
-emb = C[Xb]embcat = emb.view(emb.shape[0], -1)hprebn = embcat @ W1 + b1bnmeani = hprebn.mean(0, keepdim=True)bndiff = hprebn - bnmeanibnvar = bndiff.pow(2).mean(0, keepdim=True)bnvar_inv = (bnvar + 1e-5).pow(-0.5)bnraw = bndiff * bnvar_invhpreact = bngain * bnraw + bnbiash = torch.tanh(hpreact)logits = h @ W2 + b2
-
+```python
+emb = C[Xb]
+embcat = emb.view(emb.shape[0], -1)
+hprebn = embcat @ W1 + b1
+bnmeani = hprebn.mean(0, keepdim=True)
+bndiff = hprebn - bnmeani
+bnvar = bndiff.pow(2).mean(0, keepdim=True)
+bnvar_inv = (bnvar + 1e-5).pow(-0.5)
+bnraw = bndiff * bnvar_inv
+hpreact = bngain * bnraw + bnbias
+h = torch.tanh(hpreact)
+logits = h @ W2 + b2
+```
 
 Then the logits are converted into probabilities and the loss is calculated.
-The important idea is that every operation in the forward pass becomes something we must differentiate during the backward pass.    Pasted markdown
+The important idea is that every operation in the forward pass becomes something we must differentiate during the backward pass. 
 
 
 ## 4. retain_grad()
 Normally, PyTorch mainly keeps gradients for leaf tensors.
 Karpathy wants to inspect intermediate gradients such as:
-logits
-h
-hpreact
-bnraw
-bnvar
+logits ,
+h ,
+hpreact ,
+bnraw ,
+bnvar ,
 emb
 
 So he uses:
@@ -76,45 +88,47 @@ we can inspect:
 t.grad
 
 
-This allows us to compare our manually calculated gradients with PyTorch's gradients.    Pasted markdown
+This allows us to compare our manually calculated gradients with PyTorch's gradients.    
 
 
 ## 5. Backpropagation
 The forward direction is:
+
 C
-↓
+→ 
 Embedding
-↓
+→ 
 Concatenation
-↓
+→ 
 Linear
-↓
+→ 
 BatchNorm
-↓
+→ 
 tanh
-↓
+→ 
 Linear
-↓
+→ 
 Loss
 
 Backpropagation goes in the opposite direction:
+
 Loss
-↓
+→ 
 Linear
-↓
+→ 
 tanh
-↓
+→ 
 BatchNorm
-↓
+→ 
 Linear
-↓
+→ 
 Concatenation
-↓
+→ 
 Embedding
-↓
+→ 
 C
 
-That is the basic idea of backpropagation.    Pasted markdown
+That is the basic idea of backpropagation.    
 
 
 ## 6. The Main Rule: Chain Rule
@@ -122,16 +136,10 @@ The most important pattern is:
 upstream gradient
         ×
 local derivative
-        ↓
+        → 
 downstream gradient
 
-Mathematically:
-\[
-\text{gradient} =
-\text{upstream gradient}
-\times
-\text{local derivative}
-\]
+
 For example:
 h = torch.tanh(hpreact)
 
@@ -144,8 +152,7 @@ So:
 dhpreact = (1.0 - h**2) * dh
 
 
-This is simply the chain rule.    Pasted markdown
-
+This is simply the chain rule.  
 
 ## 7. Backprop Through a Linear Layer
 Forward:
@@ -153,15 +160,18 @@ logits = h @ W2 + b2
 
 
 Backward:
-dh = dlogits @ W2.TdW2 = h.T @ dlogitsdb2 = dlogits.sum(0)
-
+```python
+dh = dlogits @ W2.T
+dW2 = h.T @ dlogits
+db2 = dlogits.sum(0)
+```
 
 So from the gradient of logits, we calculate gradients for:
-h
-W2
+h ,
+W2 ,
 b2
 
-This is matrix calculus applied during backpropagation.    Pasted markdown
+This is matrix calculus applied during backpropagation. 
 
 
 ## 8. Backprop Through tanh
@@ -177,7 +187,7 @@ The pattern is always:
 upstream gradient
         ×
 derivative of operation
-        ↓
+        → 
 gradient of input
 
 
@@ -186,52 +196,57 @@ gradient of input
 BatchNorm is the most difficult part of the manual backward pass.
 Forward:
 hprebn
-   ↓
+   → 
 mean
-   ↓
+   → 
 subtract mean
-   ↓
+   → 
 square
-   ↓
+   → 
 variance
-   ↓
+   → 
 inverse standard deviation
-   ↓
+   → 
 normalize
-   ↓
+   → 
 gamma ×
-   ↓
+   → 
 beta +
-   ↓
+   → 
 hpreact
 
 The difficulty is that one input affects:
 1. Its own value
 2. The batch mean
 3. The batch variance
-Therefore, the gradient has multiple paths that eventually need to be combined.    Pasted markdown
+Therefore, the gradient has multiple paths that eventually need to be combined.    
+
 You don't need to memorize the giant BatchNorm derivative.
 The important concept is understanding why multiple gradient paths exist.
 
 
 ## 10. BatchNorm Parameters
 The gradients for the BatchNorm scale and bias are:
-dbngain = (bnraw * dhpreact).sum(0, keepdim=True)dbnbias = dhpreact.sum(0, keepdim=True)
-
+```python
+dbngain = (bnraw * dhpreact).sum(0, keepdim=True)
+dbnbias = dhpreact.sum(0, keepdim=True)
+```
 
 These calculate the gradients for:
-gamma → dbngain
+gamma → dbngain  ,
 beta  → dbnbias
 
 
 ## 11. Softmax + Cross Entropy
 One of the most useful results in this lecture is the simplified gradient for softmax combined with cross entropy.
+
 The result is:
 \[
 \frac{\partial L}{\partial logits}
 =
 \frac{p-y}{N}
 \]
+
 where:
 p = predicted probabilities
 y = target
@@ -256,9 +271,9 @@ Subtracting gives:
 
 So:
 correct class
-     ↓
+     → 
 negative gradient
-     ↓
+     → 
 push its logit upward
 
 While the incorrect classes receive positive gradients and are pushed downward.    Pasted markdown
@@ -269,14 +284,17 @@ The probabilities sum to 1:
 \[
 \sum p_i = 1
 \]
+
 The target vector also sums to 1:
 \[
 \sum y_i = 1
 \]
+
 Therefore:
 \[
 \sum(p-y)=0
 \]
+
 So the gradients of the logits should sum to approximately zero.
 This becomes a useful sanity check.    Pasted markdown
 
@@ -284,16 +302,25 @@ This becomes a useful sanity check.    Pasted markdown
 ## 14. Manual Backpropagation
 Eventually, loss.backward() is removed.
 The gradients are calculated manually:
-dlogits = F.softmax(logits, 1)dlogits[range(n), Yb] -= 1dlogits /= ndh = dlogits @ W2.TdW2 = h.T @ dlogitsdb2 = dlogits.sum(0)dhpreact = (1.0 - h**2) * dh# BatchNorm gradientsdbngain = (bnraw * dhpreact).sum(0, keepdim=True)dbnbias = dhpreact.sum(0, keepdim=True)# Continue backward...
+```python
+dlogits = F.softmax(logits, 1)
+dlogits[range(n), Yb] -= 1dlogits /= nd
+h = dlogits @ W2.Td
+W2 = h.T @ dlogitsd
+b2 = dlogits.sum(0)d
+hpreact = (1.0 - h**2) * dh
+dbngain = (bnraw * dhpreact).sum(0, keepdim=True)d
+bnbias = dhpreact.sum(0, keepdim=True)# Continue backward...
+```
 
 
 Eventually the gradients reach:
-dC
-dW1
-db1
-dW2
-db2
-dbngain
+dC  ,
+dW1  ,
+db1  ,
+dW2  ,
+db2  ,
+dbngain  ,
 dbnbias
 
 Then parameters are updated:
@@ -308,26 +335,25 @@ loss.backward()
 
 PyTorch is effectively doing:
 Loss
- ↓
+ → 
 dlogits
- ↓
+ → 
 dW2, db2, dh
- ↓
+ → 
 dhpreact
- ↓
+ → 
 BatchNorm gradients
- ↓
+ → 
 dW1, db1
- ↓
+ → 
 dEmbedding
- ↓
+ → 
 dC
 
 Every step uses:
 Chain rule + local derivative
 
-That is essentially what loss.backward() automates.    Pasted markdown
-
+That is essentially what loss.backward() automates.
 
 
 ## 16. torch.no_grad()
@@ -348,7 +374,7 @@ lr = 0.1 if i < 100000 else 0.01
 
 
 Meaning:
-First 100k steps → larger learning rate
+First 100k steps → larger learning rate ,
 Later steps     → smaller learning rate
 
 Large updates help early training, while smaller updates help later optimization.    Pasted markdown
@@ -356,21 +382,22 @@ Large updates help early training, while smaller updates help later optimization
 
 ## 18. Evaluation
 After training, the model is evaluated using:
-Training loss
+Training loss  ,
 Validation loss
 
 The notebook's shown run gets approximately:
-Train ≈ 2.07
+Train ≈ 2.07  ,
 Validation ≈ 2.11
 
 The exact numbers aren't the main point.
 The important result is:
+
 Manual gradients
-       ↓
+       → 
 Network trains
-       ↓
+       → 
 Loss decreases
-       ↓
+       → 
 Manual backprop works
 
 
@@ -378,19 +405,19 @@ Manual backprop works
 After training, the model generates new names.
 The process is:
 Context
-   ↓
+   → 
 Embedding
-   ↓
+   → 
 MLP
-   ↓
+   → 
 Logits
-   ↓
+   → 
 Softmax
-   ↓
+   → 
 Sample next character
-   ↓
+   → 
 Update context
-   ↓
+   → 
 Repeat
 
 This is the same autoregressive idea from the earlier Makemore parts.    Pasted markdown

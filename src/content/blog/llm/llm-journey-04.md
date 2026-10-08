@@ -6,45 +6,45 @@ tags: ["LLM", "Transformers", "Tokenization"]
 ---
 
 ## LLM Journey #4 — Activations, Gradients & BatchNorm
-Understanding what happens when the MLP becomes deeper, why gradients become unhealthy, and how Kaiming Initialization, BatchNorm, diagnostics, and PyTorchification help. Based on your Part 3 notes.    Pasted markdown
-
+Understanding what happens when the MLP becomes deeper, why gradients become unhealthy, and how Kaiming Initialization, BatchNorm, diagnostics, and PyTorchification help. Based on your Part 3 notes.   
 ## 1. What Changes from Part 2?
 In Part 2, we had:
 Characters
-    ↓
+    → 
 Embeddings
-    ↓
+    → 
 Linear
-    ↓
+    → 
 Tanh
-    ↓
+    → 
 Linear
-    ↓
+    → 
 Loss
 
 Now Karpathy makes the network much deeper:
+
 Embedding
-    ↓
+    → 
 Linear
-    ↓
+    → 
 BatchNorm
-    ↓
+    → 
 Tanh
-    ↓
+    → 
 Linear
-    ↓
+    → 
 BatchNorm
-    ↓
+    → 
 Tanh
-    ↓
+    → 
 Linear
-    ↓
+    → 
 BatchNorm
-    ↓
+    → 
 Tanh
-    ↓
+    → 
 ...
-    ↓
+    → 
 Output
 
 The main question is:
@@ -64,19 +64,19 @@ The dataset is divided into:
 ## 3. Deeper Network
 Instead of one hidden layer, we now have multiple layers:
 Input
-  ↓
+  → 
 Linear
-  ↓
+  → 
 Tanh
-  ↓
+  → 
 Linear
-  ↓
+  → 
 Tanh
-  ↓
+  → 
 Linear
-  ↓
+  → 
 Tanh
-  ↓
+  → 
 Output
 
 The purpose is to study what happens inside a deeper network.
@@ -86,10 +86,10 @@ The purpose is to study what happens inside a deeper network.
 Weights start with random values.
 But random does not automatically mean good initialization.
 If a layer produces very large values:
-2
-5
-10
--8
+2  ,
+5  ,
+10  ,
+-8  ,
 ...
 
 then tanh receives very large inputs.
@@ -119,6 +119,7 @@ then:
 1 - 1² = 0
 
 Therefore:
+
 Large activation
       ↓
 Tanh saturation
@@ -133,16 +134,17 @@ This is tanh saturation.
 ## 6. Vanishing Gradients
 Backpropagation passes gradients through the network.
 If many layers produce very small gradients:
+
 Output
-  ↓
+  → 
 Small gradient
-  ↓
+  → 
 Smaller gradient
-  ↓
+  → 
 Even smaller
-  ↓
+  → 
 ...
-  ↓
+  → 
 Early layers barely learn
 
 This is called the vanishing-gradient problem.
@@ -183,14 +185,15 @@ W1 = (
     / ((n_embd * block_size) ** 0.5)
 )
 ```
-The goal is to keep activations at a sensible scale across layers.    Pasted markdown
+The goal is to keep activations at a sensible scale across layers.
 
 
 ## 9. What is Gain?
 Different activation functions affect values differently.
 So initialization uses a gain to adjust the scale.
+
 For example:
-tanh → gain ≈ 5/3
+tanh → gain ≈ 5/3   ,
 ReLU → gain ≈ √2
 
 Main idea:
@@ -199,8 +202,10 @@ Kaiming initialization chooses a sensible starting weight scale based on fan-in 
 ## 10. Initial Loss Calibration
 The final layer can also produce very large logits.
 That can make the model extremely confident before it has learned anything.
+
 For example:
 A → 0.9999
+
 Everything else → almost 0
 
 This can produce unnecessarily bad initial loss.
@@ -210,7 +215,7 @@ layers[-1].gamma *= 0.1
 ```
 
 
-This makes the initial predictions less extreme.    Pasted markdown
+This makes the initial predictions less extreme. 
 
 
 ## 11. Batch Normalization
@@ -245,15 +250,15 @@ y = γx̂ + β
 
 So the process is:
 x
- ↓
+ → 
 subtract mean
- ↓
+ → 
 divide by std
- ↓
+ → 
 γ ×
- ↓
+ → 
 + β
- ↓
+ → 
 output
 
 
@@ -267,8 +272,7 @@ Because the network may want a distribution different from exactly:
 mean = 0
 std = 1
 
-So BatchNorm gives the network control over the normalized values.    Pasted markdown
-
+So BatchNorm gives the network control over the normalized values. 
 
 ## 14. BatchNorm From Scratch
 Karpathy implements the main idea manually:
@@ -326,15 +330,15 @@ Use running statistics
 ## 17. Training vs Evaluation
 During training:
 BatchNorm
-    ↓
+    → 
 Current batch mean/std
 
 During evaluation:
 BatchNorm
-    ↓
+    → 
 Running mean/std
 
-This distinction is important when using BatchNorm.    Pasted markdown
+This distinction is important when using BatchNorm.
 
 
 ## 18. Why Remove Linear Bias?
@@ -355,32 +359,33 @@ followed by BatchNorm.
 ## 19. Deep Architecture
 The network becomes roughly:
 Embedding
-    ↓
+    → 
 Linear
-    ↓
+    → 
 BatchNorm
-    ↓
+    → 
 Tanh
-    ↓
+    → 
 Linear
-    ↓
+    → 
 BatchNorm
-    ↓
+    → 
 Tanh
-    ↓
+    → 
 Linear
-    ↓
+    → 
 BatchNorm
-    ↓
+    → 
 Tanh
-    ↓
+    → 
 Output
 
 The important pattern is:
+
 Linear
-   ↓
+   → 
 BatchNorm
-   ↓
+   → 
 Tanh
 
 
@@ -389,18 +394,19 @@ Tanh
 We want to control the values going into tanh.
 Without BatchNorm:
 Linear
-   ↓
+   → 
 Huge values
-   ↓
+   → 
 Tanh saturation
 
 With BatchNorm:
+
 Linear
-   ↓
+   → 
 BatchNorm
-   ↓
+   → 
 Controlled values
-   ↓
+   → 
 Tanh
 
 This helps keep tanh in a healthier operating range.
@@ -414,7 +420,7 @@ Karpathy checks:
 3. Weight distributions
 4. Gradient-to-weight ratios
 5. Update-to-weight ratios
-These diagnostics help identify problems in deep networks.    Pasted markdown
+These diagnostics help identify problems in deep networks.   
 
 
 ## 22. Activation Statistics
@@ -428,9 +434,9 @@ For example:
 This tells us how many activations are close to -1 or 1.
 If too many are saturated:
 ⚠️ Tanh saturation
-      ↓
+      → 
 Small gradients
-      ↓
+      → 
 Poor learning
 
 
@@ -461,8 +467,7 @@ Very large gradients can cause exploding gradients.
 ## 24. Gradient:data Ratio
 Karpathy also compares gradient size with parameter size.
 Conceptually:
-std(gradient)
-----------------
+std(gradient)  ,
 std(weight)
 
 This helps answer:
@@ -477,21 +482,20 @@ update = learning_rate * gradient
 ```
 
 We compare:
-update
--------
+update ,
 parameter
 
 The goal is a reasonable update size.
 Tiny update
-    ↓
+    → 
 Slow learning
 
 Huge update
-    ↓
+    → 
 Unstable training
 
 Reasonable update
-    ↓
+    → 
 Healthy learning
 
 This is the practical balance to look for.
@@ -526,16 +530,17 @@ For example:
 batch_size = 32
 
 The process becomes:
+
 Dataset
-   ↓
+   → 
 Random 32 examples
-   ↓
+   → 
 Forward
-   ↓
+   → 
 Loss
-   ↓
+   → 
 Backward
-   ↓
+   → 
 Update
 
 This is mini-batch gradient descent.
@@ -543,9 +548,9 @@ This is mini-batch gradient descent.
 
 ## 28. Why Mini-Batches?
 Mini-batches provide:
-Less computation per step
-Less memory usage
-Faster training
+Less computation per step ,
+Less memory usage ,
+Faster training ,
 Noisy but useful gradients
 
 
@@ -553,8 +558,8 @@ Noisy but useful gradients
 ## 29. PyTorchification
 Karpathy then starts turning his manually written operations into reusable classes.
 He creates concepts such as:
-Linear
-BatchNorm1d
+Linear ,
+BatchNorm1d ,
 Tanh
 
 This makes the network easier to build and manage.
@@ -603,12 +608,12 @@ layers = [
 
 ## 32. Why Is This Important?
 Instead of manually managing:
-W1
-b1
-W2
-b2
-BN1
-BN2
+W1 ,
+b1 ,
+W2 ,
+b2 ,
+BN1 ,
+BN2 ,
 ...
 
 we can simply have:
@@ -679,11 +684,11 @@ The difference is that there are now many more layers and parameters.
 
 ## 36. Evaluation
 After training, we evaluate the model using:
-Training loss
+Training loss  ,
 Validation loss
 
 During evaluation, BatchNorm uses:
-Running mean
+Running mean  ,
 Running std
 
 rather than the current batch statistics.
@@ -692,16 +697,17 @@ rather than the current batch statistics.
 ## 37. Sampling
 Finally, the trained model can generate names.
 The process is:
+
 Context
-   ↓
+   → 
 Model
-   ↓
+   → 
 Probabilities
-   ↓
+   → 
 Sample next character
-   ↓
+   → 
 Update context
-   ↓
+   → 
 Repeat
 
 Conceptually:
