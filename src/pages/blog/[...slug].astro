@@ -30,7 +30,7 @@ const { Content } = await render(post);
         <p>{post.data.category}</p>
         <h1>{post.data.title}</h1>
         <p>{post.data.description}</p>
-        <p>{post.data.date.toLocaleDateString()}</p>
+        {post.data.date && <p>{post.data.date.toLocaleDateString()}</p>}
         <hr />
 
         <div class="content">

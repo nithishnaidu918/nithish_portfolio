@@ -321,4 +321,57 @@ b1 = torch.randn(hidden_size)
 W2 = torch.randn(hidden_size,vocab_size)
 b2 = torch.randn(vocab_size)
 parameters = [C,W1,b1,W2, b2]
-'''
+
+# Embedding lookup
+emb = C[X]
+
+# Concatenate the 3 character embeddings
+embcat = emb.view(emb.shape[0], -1)
+
+# First layer
+hpreact = embcat @ W1 + b1
+
+# Non-linearity
+h = torch.tanh(hpreact)
+
+# Output layer
+logits = h @ W2 + b2
+
+# Loss
+loss = F.cross_entropy(logits, Y)
+
+print(loss)
+
+# Backpropagation
+for p in parameters:
+    p.grad = None
+
+loss.backward()
+
+# Update parameters
+learning_rate = 0.1
+
+for p in parameters:
+    p.data += -learning_rate * p.grad
+    
+for step in range(10000):
+
+    # Forward pass
+    emb = C[X]
+    embcat = emb.view(emb.shape[0], -1)
+
+    h = torch.tanh(embcat @ W1 + b1)
+    logits = h @ W2 + b2
+
+    # Loss
+    loss = F.cross_entropy(logits, Y)
+
+    # Backward pass
+    for p in parameters:
+        p.grad = None
+
+    loss.backward()
+
+    # Update
+    for p in parameters:
+        p.data += -0.1 * p.grad
