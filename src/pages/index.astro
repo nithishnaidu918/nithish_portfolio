@@ -5,6 +5,9 @@ const skills = [
   "Machine Learning",
   "Deep Learning",
   "PyTorch",
+  "FastAPI",
+  "Docker",
+  "MLOps",
   "Generative AI",
   "LLMs",
   "RAG",
@@ -15,22 +18,25 @@ const skills = [
 
 const projects = [
   {
-    name: "NanoGPT",
+    name: "Nano-GPT",
     description:
       "Building a GPT-style language model from scratch with transformer architecture, self-attention, tokenization, and a complete PyTorch training pipeline.",
+    url: "https://github.com/nithishnaidu918/nano-GPT",
     tags: ["Transformers", "Self-Attention", "Tokenization", "PyTorch"],
   },
   {
     name: "Stable Diffusion",
     description:
       "Understanding and implementing diffusion-based image generation with U-Net, VAE, CLIP text conditioning, and noise scheduling.",
+    url: "https://github.com/nithishnaidu918/stable_diffusion",
     tags: ["U-Net", "VAE", "CLIP", "PyTorch / Diffusers"],
   },
   {
-    name: "ConnectVee",
+    name: "Stress Detect ML",
     description:
-      "Real-time AI communication platform combining sign-language recognition, computer vision, speech and NLP, and real-time communication in a full-stack AI system.",
-    tags: ["Computer Vision", "Speech / NLP", "Real-Time Communication", "Full-Stack AI"],
+      "Machine learning project focused on stress detection using practical data-driven modeling and evaluation workflows.",
+    url: "https://github.com/nithishnaidu918/stress_detect_ML",
+    tags: ["Machine Learning", "Classification", "Model Evaluation", "ML Pipeline"],
   },
 ];
 ---
@@ -94,20 +100,22 @@ const projects = [
       <section id="projects" class="section">
         <p class="section-label">02 — PROJECTS</p>
 
-        <h2>Things I'm building.</h2>
+        <h2>Projects</h2>
 
         <div class="projects">
           {
             projects.map((project) => (
-              <article class="project-card">
-                <h3>{project.name}</h3>
+              <a href={project.url} target="_blank" rel="noreferrer" class="project-card-link">
+                <article class="project-card">
+                  <h3>{project.name}</h3>
 
-                <p>{project.description}</p>
+                  <p>{project.description}</p>
 
-                <div class="tags">
-                  {project.tags.map((tag) => <span>{tag}</span>)}
-                </div>
-              </article>
+                  <div class="tags">
+                    {project.tags.map((tag) => <span>{tag}</span>)}
+                  </div>
+                </article>
+              </a>
             ))
           }
         </div>
