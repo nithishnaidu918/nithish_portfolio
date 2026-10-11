@@ -194,7 +194,9 @@ gradient of input
 
 ## 9. Why BatchNorm Is Hard
 BatchNorm is the most difficult part of the manual backward pass.
+
 Forward:
+
 hprebn
    → 
 mean
@@ -238,25 +240,17 @@ beta  → dbnbias
 
 
 ## 11. Softmax + Cross Entropy
+
 One of the most useful results in this lecture is the simplified gradient for softmax combined with cross entropy.
 
-The result is:
-\[
-\frac{\partial L}{\partial logits}
-=
-\frac{p-y}{N}
-\]
-
-where:
-p = predicted probabilities
-y = target
-N = batch size
-
 The implementation is:
-dlogits = F.softmax(logits, 1)dlogits[range(n), Yb] -= 1dlogits /= n
+```python
+dlogits = F.softmax(logits, 1)
+dlogits[range(n), Yb] -= 1
+dlogits /= n
+```
 
-
-This avoids manually differentiating every individual softmax and logarithm operation.    Pasted markdown
+This avoids manually differentiating every individual softmax and logarithm operation.
 
 
 ## 12. Why -= 1?
@@ -276,7 +270,7 @@ negative gradient
      → 
 push its logit upward
 
-While the incorrect classes receive positive gradients and are pushed downward.    Pasted markdown
+While the incorrect classes receive positive gradients and are pushed downward.    
 
 
 ## 13. Why Does the Gradient Sum to Zero?
@@ -296,8 +290,7 @@ Therefore:
 \]
 
 So the gradients of the logits should sum to approximately zero.
-This becomes a useful sanity check.    Pasted markdown
-
+This becomes a useful sanity check.
 
 ## 14. Manual Backpropagation
 Eventually, loss.backward() is removed.
@@ -365,7 +358,7 @@ with torch.no_grad():    ...
 means:
 Don't track these operations for automatic gradient calculation.
 
-The parameters can then be updated using the manually calculated gradients.    Pasted markdown
+The parameters can then be updated using the manually calculated gradients.    
 
 
 ## 17. Learning Rate Decay
@@ -377,7 +370,7 @@ Meaning:
 First 100k steps → larger learning rate ,
 Later steps     → smaller learning rate
 
-Large updates help early training, while smaller updates help later optimization.    Pasted markdown
+Large updates help early training, while smaller updates help later optimization.    
 
 
 ## 18. Evaluation
@@ -420,8 +413,7 @@ Update context
    → 
 Repeat
 
-This is the same autoregressive idea from the earlier Makemore parts.    Pasted markdown
-
+This is the same autoregressive idea from the earlier Makemore parts.
 
 ## Key Takeaways
 1. Backpropagation = chain rule applied backward.

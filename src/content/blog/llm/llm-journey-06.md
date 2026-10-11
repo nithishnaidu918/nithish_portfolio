@@ -41,14 +41,6 @@ Instead of:
      →
     MLP
 
-we can process:
-a b     c d
- \ /     \ /
- AB      CD
-   \     /
-    \   /
-    ABCD
-
 So the model goes:
 Characters
     →
