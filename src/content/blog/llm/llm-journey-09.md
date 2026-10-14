@@ -727,18 +727,3 @@ This is illustrative evaluation logic; a proper implementation must handle token
 Normalizing loss helps compare candidates of different lengths rather than simply favoring candidates with fewer total token losses.
 
 HellaSwag accuracy complements validation loss: validation loss measures next-token prediction on held-out text, while HellaSwag measures performance on a specific multiple-choice benchmark.
-
-## 29. Key Takeaways
-
-- GPT-2 is a decoder-only Transformer with approximately 124 million parameters in its Small configuration.
-- Reproducing GPT-2 requires matching the architecture and tensor shapes before loading pretrained weights.
-- The model learns by predicting shifted next-token targets using cross-entropy loss.
-- Weight tying shares the token embedding matrix with the output head.
-- Mixed precision, FlashAttention, `torch.compile`, and fused optimizers can improve training efficiency.
-- Gradient clipping and learning-rate scheduling help manage training stability.
-- Gradient accumulation and DDP increase effective batch size without requiring all data to fit on one GPU.
-- Validation loss measures generalization, while HellaSwag provides a separate benchmark evaluation.
-- Measuring performance is essential: optimizations should be evaluated on the actual hardware and workload.
-
-**My main learning:** Reproducing GPT-2 is not only about understanding Transformer layers. It also requires careful parameter mapping, correct training targets, numerical stability, hardware-aware optimization, and meaningful evaluation.
-
