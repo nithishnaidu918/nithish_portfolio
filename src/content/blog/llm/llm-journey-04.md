@@ -1,5 +1,5 @@
 ---
-title: "LLM Journey #4 - MLP"
+title: " Activations, Gradients & BatchNorm"
 description: "Understanding how Karpathy moves from a bigram model to an MLP that uses multiple previous characters as context."
 category: "LLM"
 tags: ["LLM", "Transformers", "Tokenization"]

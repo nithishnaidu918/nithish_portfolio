@@ -1,5 +1,5 @@
 ---
-title: "LLM Journey #5 "
+title: "Understanding Backpropagation "
 description: "Doing BackProp manually and understanding what pytorch was doing with loss.backward()."
 category: "LLM"
 tags: ["LLM", "Transformers", "Tokenization"]

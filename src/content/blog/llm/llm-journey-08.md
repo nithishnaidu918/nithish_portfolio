@@ -1,5 +1,5 @@
 ---
-title: "LLM Journey #8 — Building a GPT Tokenizer"
+title: "Building a GPT Tokenizer"
 description: "Understanding BPE, Unicode, pre-tokenization, SentencePiece, tiktoken, special tokens, and how tokenization connects to GPT."
 category: "LLM"
 tags: ["LLM", "GPT", "Tokenizer", "BPE", "SentencePiece", "PyTorch"]

@@ -1,5 +1,5 @@
 ---
-title: "LLM Journey #7 — Let's Build GPT from Scratch"
+title: "Let's Build GPT from Scratch"
 description: "Understanding how Karpathy builds GPT using token embeddings, positional embeddings, self-attention, Transformer blocks, backpropagation, and text generation."
 category: "LLM"
 tags: ["LLM", "GPT", "Transformer", "PyTorch", "Self-Attention"]

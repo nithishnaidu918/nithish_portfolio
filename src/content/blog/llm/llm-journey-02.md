@@ -1,5 +1,5 @@
 ---
-title: "LLM Journey #2 - Makemore, Bigram Language Model & Neural Network"
+title: "Makemore, Bigram Language Model & Neural Network"
 description: "Learning how a simple character-level language model goes from counting characters to a trainable neural network."
 category: "LLM"
 tags: ["LLM", "Transformers", "Tokenization"]

@@ -1,5 +1,5 @@
 ---
-title: "LLM Journey #3 - MLP"
+title: "MLP"
 description: "Understanding how Karpathy moves from a bigram model to an MLP that uses multiple previous characters as context."
 category: "LLM"
 tags: ["LLM", "Transformers", "Tokenization"]

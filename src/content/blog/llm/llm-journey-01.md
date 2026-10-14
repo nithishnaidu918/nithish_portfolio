@@ -1,5 +1,5 @@
 ---
-title: "LLM Journey #1 - Foundations"
+title: "LLM Foundations"
 description: "Beginning a structured journey through the foundations of Large Language Models."
 category: "LLM"
 tags: ["LLM", "Transformers", "Tokenization"]

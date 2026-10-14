@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning Journey #1 - Understanding the Foundations"
+title: "Understanding the Foundations"
 
 description: "Learning the core ideas behind Machine Learning, including models, features, targets, training, inference, supervised learning, and generalization."
 

@@ -1,5 +1,5 @@
 ---
-title: "LLM Journey #6 "
+title: "CNNs, Hierarchical Context & WaveNet "
 description: "Understanding"
 category: "LLM"
 tags: ["LLM", "Transformers", "Tokenization"]
