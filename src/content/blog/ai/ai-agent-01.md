@@ -1,6 +1,7 @@
 ---
 title: "Agent Fundamentals, LLMs, Tools & Workflows"
 description: "A comprehensive introduction to AI agents, LLMs, chat templates, the ReAct cycle, tool calling, observations, and building blocks for agentic systems."
+date: "2026-10-16"
 category: "AI Agents"
 tags: ["Agentic AI", "AI Agents", "LLM", "ReAct", "Tool Calling", "Hugging Face", "Python", "smolagents"]
 ---
