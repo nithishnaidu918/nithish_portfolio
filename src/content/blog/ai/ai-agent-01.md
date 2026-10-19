@@ -1,7 +1,6 @@
 ---
 title: "Agent Fundamentals, LLMs, Tools & Workflows"
 description: "A comprehensive introduction to AI agents, LLMs, chat templates, the ReAct cycle, tool calling, observations, and building blocks for agentic systems."
-date: "2026-10-16"
 category: "AI Agents"
 tags: ["Agentic AI", "AI Agents", "LLM", "ReAct", "Tool Calling", "Hugging Face", "Python", "smolagents"]
 ---
@@ -142,8 +141,6 @@ Examples include GPT models from OpenAI, Llama from Meta, Gemini from Google, an
 
 Agents can also use other model types. A Vision-Language Model (VLM), for example, can process images as well as text.
 
-For this introductory journey, the focus is on LLM-based agents.
-
 # Part 2 — Understanding Large Language Models
 
 ## 5. What Is an LLM?
@@ -249,10 +246,10 @@ Some examples of model-specific end markers are:
 
 | Model or family | Example marker |
 |---|---|
-| GPT-style models | `<|endoftext|>` in certain tokenization and training contexts |
-| Llama 3 | `<|eot_id|>` |
+| GPT-style models | <|endoftext|> in certain tokenization and training contexts |
+| Llama 3 | <|eot_id|> |
 | DeepSeek models | Model-specific end markers |
-| SmolLM2 chat format | `<|im_end|>` |
+| SmolLM2 chat format | <|im_end|> |
 | Gemma | Model-specific turn-ending markers |
 
 The exact meaning of an end marker depends on the model and its format. An end-of-message marker, end-of-turn marker, and end-of-sequence marker should not automatically be assumed to mean the same thing.
@@ -2222,7 +2219,7 @@ For example, after an email-sending tool reports success, an application may nee
 
 The same principle applies to file creation, database updates, API requests, and other external actions.
 
-# Final Summary — AI Agent Journey #1
+# Final Summary
 
 In this journey, I learned how an LLM-powered agent works from its foundational concepts to a first framework-based implementation.
 
