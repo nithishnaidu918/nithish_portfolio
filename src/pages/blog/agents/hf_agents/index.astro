@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog"))
-  .filter((post) => post.id.startsWith("ai/"))
+  .filter((post) => post.id.startsWith("agents/hf_agents/"))
   .sort((a, b) => a.id.localeCompare(b.id));
 ---
 
@@ -10,10 +10,10 @@ const posts = (await getCollection("blog"))
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>AI Agents | Nithish</title>
+    <title>Hugging Face Agents | Nithish</title>
     <meta
       name="description"
-      content="My learning journey into AI agents and agentic systems."
+      content="My learning journey through the Hugging Face Agents course."
     />
   </head>
 
@@ -21,11 +21,11 @@ const posts = (await getCollection("blog"))
     <main>
       <a href="/blog/">&larr; Back to Blog</a>
 
-      <h1>AI Agents</h1>
+      <h1>Hugging Face Agents</h1>
 
       <p>
-        My journey into agent fundamentals, LLM tools, workflows, and agentic
-        systems.
+        My journey through agent fundamentals, frameworks, tools, workflows,
+        and agentic systems.
       </p>
 
       <section>
