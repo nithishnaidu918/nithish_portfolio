@@ -1,0 +1,123 @@
+---
+const courses = [
+  {
+    name: "Hugging Face Agents",
+    description: "Agent fundamentals, tools, workflows, and agentic systems.",
+    href: "/blog/agents/hf_agents/",
+  },
+  {
+    name: "Berkeley Advanced LLM Agents",
+    description: "Advanced patterns for building capable LLM-based agents.",
+    href: "/blog/agents/berkeley_advanced_llm_agents/",
+  },
+  {
+    name: "Berkeley Agentic AI",
+    description: "Learning notes on agentic AI systems and applications.",
+    href: "/blog/agents/berkeley_agentic_ai/",
+  },
+  {
+    name: "Stanford Self-Improving Agents",
+    description: "Learning notes on agents that improve through feedback and experience.",
+    href: "/blog/agents/stanford_self_improving_agents/",
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>AI Agents | Nithish</title>
+    <meta
+      name="description"
+      content="AI Agents learning courses and notes by Nithish."
+    />
+  </head>
+
+  <body>
+    <main>
+      <a href="/blog/">&larr; Back to Blog</a>
+
+      <h1>AI Agents</h1>
+
+      <p>
+        Courses and learning notes covering agent frameworks, agentic systems,
+        and self-improving agents.
+      </p>
+
+      <section>
+        {
+          courses.map((course) => (
+            <a href={course.href} class="course">
+              <h2>{course.name}</h2>
+              <p>{course.description}</p>
+              <strong>Explore &rarr;</strong>
+            </a>
+          ))
+        }
+      </section>
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    font-family: system-ui, sans-serif;
+  }
+
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  a {
+    color: #aaa;
+    text-decoration: none;
+  }
+
+  h1 {
+    font-size: 48px;
+    margin-top: 50px;
+  }
+
+  section {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .course {
+    display: block;
+    padding: 24px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    background: #111;
+  }
+
+  .course h2 {
+    color: #fff;
+    margin-top: 0;
+  }
+
+  .course p {
+    color: #aaa;
+    line-height: 1.6;
+  }
+
+  strong {
+    display: inline-block;
+    margin-top: 10px;
+    color: #fff;
+  }
+
+  @media (max-width: 700px) {
+    section {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
